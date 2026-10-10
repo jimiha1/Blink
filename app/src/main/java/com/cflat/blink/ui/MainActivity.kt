@@ -32,6 +32,7 @@ import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -87,7 +88,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    var showSettings by remember { mutableStateOf(false) }
+                    var showSettings by rememberSaveable { mutableStateOf(false) }
                     if (showSettings) {
                         SettingsScreen(
                             context = this@MainActivity,
@@ -236,7 +237,7 @@ fun EyeCareScreen(
 
             // Header
             Text(
-                text = "Blink",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.Black,
                 color = MaterialTheme.colorScheme.onSurface,
