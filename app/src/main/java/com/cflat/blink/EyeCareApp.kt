@@ -1,9 +1,12 @@
 package com.cflat.blink
 
 import android.app.Application
+import android.app.LocaleManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.media.AudioAttributes
+import android.os.LocaleList
+import com.cflat.blink.util.PrefsManager
 
 class EyeCareApp : Application() {
 
@@ -15,6 +18,19 @@ class EyeCareApp : Application() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannels()
+        applyStoredLanguage()
+    }
+
+    private fun applyStoredLanguage() {
+        val tag = when (PrefsManager.getAppLanguage(this)) {
+            "zh" -> "zh-CN"
+            "en" -> "en"
+            else -> ""            // 跟随系统
+        }
+        val lm = getSystemService(LocaleManager::class.java) ?: return
+        lm.applicationLocales =
+            if (tag.isEmpty()) LocaleList.getEmptyLocaleList()
+            else LocaleList.forLanguageTags(tag)
     }
 
     private fun createNotificationChannels() {

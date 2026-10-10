@@ -14,6 +14,7 @@ object PrefsManager {
     private const val KEY_OVERLAY_STYLE = "overlay_style"      // "expressive" | "calm" | "minimal"
     private const val KEY_OVERLAY_THEME = "overlay_theme"      // "system" | "dark" | "light"
     private const val KEY_NOTIFICATION_ASKED = "notification_asked"
+    private const val KEY_APP_LANGUAGE = "app_language"        // "system" | "zh" | "en"
 
     private const val DEFAULT_WORK_DURATION_MS = 20 * 60 * 1000L
     private const val DEFAULT_REST_DURATION_MS = 20 * 1000L
@@ -74,4 +75,10 @@ object PrefsManager {
 
     fun setAskedNotification(context: Context) =
         prefs(context).edit().putBoolean(KEY_NOTIFICATION_ASKED, true).apply()
+
+    fun getAppLanguage(context: Context): String =
+        prefs(context).getString(KEY_APP_LANGUAGE, "system") ?: "system"
+
+    fun setAppLanguage(context: Context, lang: String) =
+        prefs(context).edit().putString(KEY_APP_LANGUAGE, lang).apply()
 }
