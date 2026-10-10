@@ -402,7 +402,7 @@ fun SettingsScreen(
             Spacer(Modifier.height(12.dp))
 
             // ── OEM-specific guidance ────────────────────────────────
-            val oemGuide = getOemBatteryGuide()
+            val oemGuide = getOemBatteryGuide(context)
             if (oemGuide != null) {
                 SettingsSectionHeader(stringResource(R.string.settings_section_device_specific), Icons.Rounded.PhoneAndroid)
                 SettingsCard {
@@ -523,98 +523,98 @@ private data class OemBatteryGuide(
     val steps: List<String>
 )
 
-private fun getOemBatteryGuide(): OemBatteryGuide? {
+private fun getOemBatteryGuide(context: Context): OemBatteryGuide? {
     val manufacturer = Build.MANUFACTURER.lowercase()
     return when {
         manufacturer.contains("xiaomi") || manufacturer.contains("redmi") || manufacturer.contains("poco") ->
             OemBatteryGuide(
-                title = "Xiaomi/MIUI Battery Settings",
-                description = "MIUI aggressively kills background apps. Follow these steps:",
+                title = context.getString(R.string.oem_xiaomi_title),
+                description = context.getString(R.string.oem_xiaomi_desc),
                 steps = listOf(
-                    "1. Settings > Apps > Manage Apps > Blink > Autostart > enable",
-                    "2. Settings > Apps > Manage Apps > Blink > Battery Saver > No restrictions",
-                    "3. Security app > Battery > App Battery Saver > Blink > No restrictions",
-                    "4. Lock Blink in Recents (swipe down on the app card)",
+                    context.getString(R.string.oem_xiaomi_step1),
+                    context.getString(R.string.oem_xiaomi_step2),
+                    context.getString(R.string.oem_xiaomi_step3),
+                    context.getString(R.string.oem_xiaomi_step4),
                     "",
-                    "Note: If the system force-stops Blink, autostart on boot won't work until you open the app once."
+                    context.getString(R.string.oem_xiaomi_note)
                 )
             )
         manufacturer.contains("samsung") ->
             OemBatteryGuide(
-                title = "Samsung Battery Settings",
-                description = "Samsung's battery optimization can stop background apps. Follow these steps:",
+                title = context.getString(R.string.oem_samsung_title),
+                description = context.getString(R.string.oem_samsung_desc),
                 steps = listOf(
-                    "1. Settings > Battery > Background usage limits > Never sleeping apps > Add Blink",
-                    "2. Settings > Apps > Blink > Battery > Unrestricted",
-                    "3. Lock Blink in Recents (tap the app icon > Lock)",
+                    context.getString(R.string.oem_samsung_step1),
+                    context.getString(R.string.oem_samsung_step2),
+                    context.getString(R.string.oem_samsung_step3),
                     "",
-                    "Note: If the system force-stops Blink, autostart on boot won't work until you open the app once."
+                    context.getString(R.string.oem_samsung_note)
                 )
             )
         manufacturer.contains("huawei") || manufacturer.contains("honor") ->
             OemBatteryGuide(
-                title = "Huawei/Honor Battery Settings",
-                description = "EMUI has aggressive power management. Follow these steps:",
+                title = context.getString(R.string.oem_huawei_title),
+                description = context.getString(R.string.oem_huawei_desc),
                 steps = listOf(
-                    "1. Settings > Battery > App launch > Blink > Manage manually > enable all toggles",
-                    "2. Settings > Apps > Apps > Blink > Battery > enable Run in background",
-                    "3. Lock Blink in Recents (swipe down on the app card)"
+                    context.getString(R.string.oem_huawei_step1),
+                    context.getString(R.string.oem_huawei_step2),
+                    context.getString(R.string.oem_huawei_step3)
                 )
             )
         manufacturer.contains("oppo") || manufacturer.contains("realme") || manufacturer.contains("oneplus") ->
             OemBatteryGuide(
-                title = "OPPO/Realme/OnePlus Battery Settings",
-                description = "ColorOS aggressively manages background apps. Follow these steps:",
+                title = context.getString(R.string.oem_oppo_title),
+                description = context.getString(R.string.oem_oppo_desc),
                 steps = listOf(
-                    "1. Settings > App management > App list > Blink > Auto-launch > Allow",
-                    "2. Settings > Battery > More settings > Optimize battery use > Blink > Don't optimize",
-                    "3. Settings > Apps > App management > Blink > Battery usage > Allow background activity",
-                    "4. Lock Blink in Recents (tap the lock icon on the app card)",
+                    context.getString(R.string.oem_oppo_step1),
+                    context.getString(R.string.oem_oppo_step2),
+                    context.getString(R.string.oem_oppo_step3),
+                    context.getString(R.string.oem_oppo_step4),
                     "",
-                    "Note: If the system force-stops Blink, autostart on boot won't work until you open the app once."
+                    context.getString(R.string.oem_oppo_note)
                 )
             )
         manufacturer.contains("vivo") || manufacturer.contains("iqoo") ->
             OemBatteryGuide(
-                title = "Vivo/iQOO Battery Settings",
-                description = "Funtouch OS restricts background apps. Follow these steps:",
+                title = context.getString(R.string.oem_vivo_title),
+                description = context.getString(R.string.oem_vivo_desc),
                 steps = listOf(
-                    "1. Settings > Apps > Autostart > enable Blink",
-                    "2. Settings > Battery > Background power consumption > Blink > Don't restrict",
-                    "3. Settings > Apps > Blink > Battery > Allow high background power consumption",
-                    "4. Lock Blink in Recents (swipe down on the app card)",
+                    context.getString(R.string.oem_vivo_step1),
+                    context.getString(R.string.oem_vivo_step2),
+                    context.getString(R.string.oem_vivo_step3),
+                    context.getString(R.string.oem_vivo_step4),
                     "",
-                    "Note: If the system force-stops Blink, autostart on boot won't work until you open the app once."
+                    context.getString(R.string.oem_vivo_note)
                 )
             )
         manufacturer.contains("motorola") || manufacturer.contains("lenovo") ->
             OemBatteryGuide(
-                title = "Motorola Battery Settings",
-                description = "Moto's system can still kill foreground services. Follow these steps:",
+                title = context.getString(R.string.oem_motorola_title),
+                description = context.getString(R.string.oem_motorola_desc),
                 steps = listOf(
-                    "1. Settings > Battery > Battery optimization > All apps > Blink > Don't optimize",
-                    "2. Settings > Apps > Blink > Battery > Allow background activity",
-                    "3. Settings > Battery > Adaptive battery > turn off (optional, affects all apps)",
+                    context.getString(R.string.oem_motorola_step1),
+                    context.getString(R.string.oem_motorola_step2),
+                    context.getString(R.string.oem_motorola_step3),
                     "",
-                    "Note: If the system force-stops Blink, autostart on boot won't work until you open the app once."
+                    context.getString(R.string.oem_motorola_note)
                 )
             )
         manufacturer.contains("asus") ->
             OemBatteryGuide(
-                title = "ASUS Battery Settings",
-                description = "ASUS power management can restrict background apps. Follow these steps:",
+                title = context.getString(R.string.oem_asus_title),
+                description = context.getString(R.string.oem_asus_desc),
                 steps = listOf(
-                    "1. Settings > Battery > PowerMaster > Battery optimization > Blink > Don't optimize",
-                    "2. Settings > Battery > PowerMaster > Auto-start manager > enable Blink"
+                    context.getString(R.string.oem_asus_step1),
+                    context.getString(R.string.oem_asus_step2)
                 )
             )
         manufacturer.contains("nokia") ->
             OemBatteryGuide(
-                title = "Nokia Battery Settings",
-                description = "Nokia uses DuraSpeed which limits background processes. Follow these steps:",
+                title = context.getString(R.string.oem_nokia_title),
+                description = context.getString(R.string.oem_nokia_desc),
                 steps = listOf(
-                    "1. Settings > Battery > Background activity > enable Blink",
-                    "2. Settings > Apps > Blink > Battery > Unrestricted"
+                    context.getString(R.string.oem_nokia_step1),
+                    context.getString(R.string.oem_nokia_step2)
                 )
             )
         else -> null

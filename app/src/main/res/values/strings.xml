@@ -62,6 +62,61 @@
     <string name="settings_lang_zh">简体中文</string>
     <string name="settings_lang_en">English</string>
 
+    <!-- OEM battery guide -->
+    <string name="oem_xiaomi_title">Xiaomi/MIUI Battery Settings</string>
+    <string name="oem_xiaomi_desc">MIUI aggressively kills background apps. Follow these steps:</string>
+    <string name="oem_xiaomi_step1">1. Settings > Apps > Manage Apps > Blink > Autostart > enable</string>
+    <string name="oem_xiaomi_step2">2. Settings > Apps > Manage Apps > Blink > Battery Saver > No restrictions</string>
+    <string name="oem_xiaomi_step3">3. Security app > Battery > App Battery Saver > Blink > No restrictions</string>
+    <string name="oem_xiaomi_step4">4. Lock Blink in Recents (swipe down on the app card)</string>
+    <string name="oem_xiaomi_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_samsung_title">Samsung Battery Settings</string>
+    <string name="oem_samsung_desc">Samsung\'s battery optimization can stop background apps. Follow these steps:</string>
+    <string name="oem_samsung_step1">1. Settings > Battery > Background usage limits > Never sleeping apps > Add Blink</string>
+    <string name="oem_samsung_step2">2. Settings > Apps > Blink > Battery > Unrestricted</string>
+    <string name="oem_samsung_step3">3. Lock Blink in Recents (tap the app icon > Lock)</string>
+    <string name="oem_samsung_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_huawei_title">Huawei/Honor Battery Settings</string>
+    <string name="oem_huawei_desc">EMUI has aggressive power management. Follow these steps:</string>
+    <string name="oem_huawei_step1">1. Settings > Battery > App launch > Blink > Manage manually > enable all toggles</string>
+    <string name="oem_huawei_step2">2. Settings > Apps > Apps > Blink > Battery > enable Run in background</string>
+    <string name="oem_huawei_step3">3. Lock Blink in Recents (swipe down on the app card)</string>
+
+    <string name="oem_oppo_title">OPPO/Realme/OnePlus Battery Settings</string>
+    <string name="oem_oppo_desc">ColorOS aggressively manages background apps. Follow these steps:</string>
+    <string name="oem_oppo_step1">1. Settings > App management > App list > Blink > Auto-launch > Allow</string>
+    <string name="oem_oppo_step2">2. Settings > Battery > More settings > Optimize battery use > Blink > Don\'t optimize</string>
+    <string name="oem_oppo_step3">3. Settings > Apps > App management > Blink > Battery usage > Allow background activity</string>
+    <string name="oem_oppo_step4">4. Lock Blink in Recents (tap the lock icon on the app card)</string>
+    <string name="oem_oppo_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_vivo_title">Vivo/iQOO Battery Settings</string>
+    <string name="oem_vivo_desc">Funtouch OS restricts background apps. Follow these steps:</string>
+    <string name="oem_vivo_step1">1. Settings > Apps > Autostart > enable Blink</string>
+    <string name="oem_vivo_step2">2. Settings > Battery > Background power consumption > Blink > Don\'t restrict</string>
+    <string name="oem_vivo_step3">3. Settings > Apps > Blink > Battery > Allow high background power consumption</string>
+    <string name="oem_vivo_step4">4. Lock Blink in Recents (swipe down on the app card)</string>
+    <string name="oem_vivo_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_motorola_title">Motorola Battery Settings</string>
+    <string name="oem_motorola_desc">Moto\'s system can still kill foreground services. Follow these steps:</string>
+    <string name="oem_motorola_step1">1. Settings > Battery > Battery optimization > All apps > Blink > Don\'t optimize</string>
+    <string name="oem_motorola_step2">2. Settings > Apps > Blink > Battery > Allow background activity</string>
+    <string name="oem_motorola_step3">3. Settings > Battery > Adaptive battery > turn off (optional, affects all apps)</string>
+    <string name="oem_motorola_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_asus_title">ASUS Battery Settings</string>
+    <string name="oem_asus_desc">ASUS power management can restrict background apps. Follow these steps:</string>
+    <string name="oem_asus_step1">1. Settings > Battery > PowerMaster > Battery optimization > Blink > Don\'t optimize</string>
+    <string name="oem_asus_step2">2. Settings > Battery > PowerMaster > Auto-start manager > enable Blink</string>
+
+    <string name="oem_nokia_title">Nokia Battery Settings</string>
+    <string name="oem_nokia_desc">Nokia uses DuraSpeed which limits background processes. Follow these steps:</string>
+    <string name="oem_nokia_step1">1. Settings > Battery > Background activity > enable Blink</string>
+    <string name="oem_nokia_step2">2. Settings > Apps > Blink > Battery > Unrestricted</string>
+
     <!-- Rest overlay -->
     <string name="overlay_seconds_label">SECONDS</string>
     <string name="overlay_title">Rest Your Eyes</string>
