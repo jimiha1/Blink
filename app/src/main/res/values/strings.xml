@@ -2,6 +2,17 @@
 <resources>
     <string name="app_name">Blink</string>
 
+    <!-- Home screen -->
+    <string name="home_status_resting">Time to rest your eyes</string>
+    <string name="home_status_running">Protecting your vision</string>
+    <string name="home_status_idle">Start to protect your eyes</string>
+    <string name="home_look_away">Look Away</string>
+    <string name="home_20ft_20s">20ft for 20s</string>
+    <string name="home_paused">PAUSED</string>
+    <string name="home_action_stop">Stop</string>
+    <string name="home_action_start">Start</string>
+    <string name="home_eye_desc">Eye</string>
+
     <!-- Settings screen -->
     <string name="settings_title">Settings</string>
     <string name="settings_back">Back</string>
