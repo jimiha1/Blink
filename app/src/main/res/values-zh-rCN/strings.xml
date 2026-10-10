@@ -1,2 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <!-- Settings screen -->
+    <string name="settings_title">设置</string>
+    <string name="settings_back">返回</string>
+
+    <string name="settings_timers">计时</string>
+    <string name="settings_work_duration">工作时长</string>
+    <string name="settings_unit_min">%1$d 分钟</string>
+    <string name="settings_rest_duration">休息时长</string>
+    <string name="settings_unit_sec">%1$d 秒</string>
+
+    <string name="settings_alert">提醒</string>
+    <string name="settings_alert_mode">提醒方式</string>
+    <string name="settings_alert_mode_desc">如何提醒你休息</string>
+    <string name="settings_alert_mode_both">两者</string>
+    <string name="settings_alert_mode_overlay">悬浮层</string>
+    <string name="settings_alert_mode_notif">通知</string>
+
+    <string name="settings_section_overlay">悬浮层</string>
+    <string name="settings_dismissable">可关闭</string>
+    <string name="settings_dismissable_desc">休息时显示关闭按钮</string>
+    <string name="settings_opacity">不透明度</string>
+    <string name="settings_unit_percent">%1$d%%</string>
+    <string name="settings_overlay_style">悬浮层样式</string>
+    <string name="settings_overlay_style_desc">休息界面的视觉风格</string>
+    <string name="settings_overlay_style_expressive">灵动</string>
+    <string name="settings_overlay_style_calm">宁静</string>
+    <string name="settings_overlay_style_minimal">极简</string>
+    <string name="settings_overlay_theme">悬浮层主题</string>
+    <string name="settings_overlay_theme_desc">强制休息界面为深色或浅色，或跟随系统</string>
+    <string name="settings_overlay_theme_system">跟随系统</string>
+    <string name="settings_overlay_theme_dark">深色</string>
+    <string name="settings_overlay_theme_light">浅色</string>
+
+    <string name="settings_section_system">系统</string>
+    <string name="settings_battery_optimization">电池优化</string>
+    <string name="settings_battery_unrestricted">无限制 — 计时可靠</string>
+    <string name="settings_battery_restricted">受限 — 点按修复</string>
+    <string name="settings_disable">禁用</string>
+    <string name="settings_start_on_boot">开机自启</string>
+    <string name="settings_start_on_boot_desc">重启后自动恢复</string>
+
+    <string name="settings_section_device_specific">设备专属</string>
+
+    <string name="settings_language">语言</string>
+    <string name="settings_language_desc">应用显示语言</string>
+    <string name="settings_lang_system">跟随系统</string>
+    <string name="settings_lang_zh">简体中文</string>
+    <string name="settings_lang_en">English</string>
+</resources>

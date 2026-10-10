@@ -1,8 +1,10 @@
 package com.cflat.blink.ui
 
+import android.app.LocaleManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.LocaleList
 import android.os.PowerManager
 import android.provider.Settings as AndroidSettings
 import androidx.compose.foundation.layout.*
@@ -17,8 +19,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.cflat.blink.R
 import com.cflat.blink.util.PrefsManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,14 +47,15 @@ fun SettingsScreen(
     var overlayStyle by remember { mutableStateOf(PrefsManager.getOverlayStyle(context)) }
     var overlayTheme by remember { mutableStateOf(PrefsManager.getOverlayTheme(context)) }
     var autoStart by remember { mutableStateOf(PrefsManager.isAutoStartEnabled(context)) }
+    var appLanguage by remember { mutableStateOf(PrefsManager.getAppLanguage(context)) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Settings", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.settings_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = stringResource(R.string.settings_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -69,12 +74,12 @@ fun SettingsScreen(
         ) {
 
             // ── Timers ───────────────────────────────────────────────
-            SettingsSectionHeader("Timers", Icons.Rounded.Timer)
+            SettingsSectionHeader(stringResource(R.string.settings_timers), Icons.Rounded.Timer)
             SettingsCard {
                 SliderRow(
-                    label = "Work Duration",
+                    label = stringResource(R.string.settings_work_duration),
                     value = workMinutes,
-                    displayText = "${workMinutes.roundToInt()} min",
+                    displayText = stringResource(R.string.settings_unit_min, workMinutes.roundToInt()),
                     range = 1f..60f,
                     steps = 58,
                     onValueChange = { workMinutes = it },
@@ -86,9 +91,9 @@ fun SettingsScreen(
                 )
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                 SliderRow(
-                    label = "Rest Duration",
+                    label = stringResource(R.string.settings_rest_duration),
                     value = restSeconds,
-                    displayText = "${restSeconds.roundToInt()} sec",
+                    displayText = stringResource(R.string.settings_unit_sec, restSeconds.roundToInt()),
                     range = 10f..60f,
                     steps = 49,
                     onValueChange = { restSeconds = it },
@@ -103,19 +108,19 @@ fun SettingsScreen(
             Spacer(Modifier.height(12.dp))
 
             // ── Alert Mode ───────────────────────────────────────────
-            SettingsSectionHeader("Alert", Icons.Rounded.Notifications)
+            SettingsSectionHeader(stringResource(R.string.settings_alert), Icons.Rounded.Notifications)
             SettingsCard {
                 Column(
                     modifier = Modifier.fillMaxWidth().padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        "Alert Mode",
+                        stringResource(R.string.settings_alert_mode),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        "How you're reminded to take a break",
+                        stringResource(R.string.settings_alert_mode_desc),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -123,10 +128,10 @@ fun SettingsScreen(
                     @OptIn(ExperimentalMaterial3Api::class)
                     SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                         listOf(
-                            "both" to "Both",
-                            "overlay" to "Overlay",
-                            "notification" to "Notif"
-                        ).forEachIndexed { index, (key, label) ->
+                            "both" to R.string.settings_alert_mode_both,
+                            "overlay" to R.string.settings_alert_mode_overlay,
+                            "notification" to R.string.settings_alert_mode_notif
+                        ).forEachIndexed { index, (key, labelRes) ->
                             SegmentedButton(
                                 shape = SegmentedButtonDefaults.itemShape(index, 3),
                                 onClick = {
@@ -134,7 +139,7 @@ fun SettingsScreen(
                                     PrefsManager.setAlertMode(context, key)
                                 },
                                 selected = alertMode == key,
-                                label = { Text(label, style = MaterialTheme.typography.labelMedium) }
+                                label = { Text(stringResource(labelRes), style = MaterialTheme.typography.labelMedium) }
                             )
                         }
                     }
@@ -144,12 +149,12 @@ fun SettingsScreen(
             Spacer(Modifier.height(12.dp))
 
             // ── Overlay Appearance ───────────────────────────────────
-            SettingsSectionHeader("Overlay", Icons.Rounded.Layers)
+            SettingsSectionHeader(stringResource(R.string.settings_section_overlay), Icons.Rounded.Layers)
             SettingsCard {
                 // Dismissable toggle
                 ListItem(
-                    headlineContent = { Text("Dismissable", fontWeight = FontWeight.SemiBold) },
-                    supportingContent = { Text("Show a close button during rest") },
+                    headlineContent = { Text(stringResource(R.string.settings_dismissable), fontWeight = FontWeight.SemiBold) },
+                    supportingContent = { Text(stringResource(R.string.settings_dismissable_desc)) },
                     leadingContent = {
                         Icon(
                             Icons.Rounded.Close,
@@ -175,9 +180,9 @@ fun SettingsScreen(
 
                 // Opacity slider
                 SliderRow(
-                    label = "Opacity",
+                    label = stringResource(R.string.settings_opacity),
                     value = overlayOpacity,
-                    displayText = "${(overlayOpacity * 100).roundToInt()}%",
+                    displayText = stringResource(R.string.settings_unit_percent, (overlayOpacity * 100).roundToInt()),
                     range = 0.3f..1.0f,
                     steps = 13,
                     onValueChange = { overlayOpacity = it },
@@ -194,12 +199,12 @@ fun SettingsScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        "Overlay Style",
+                        stringResource(R.string.settings_overlay_style),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        "Visual theme of the rest screen",
+                        stringResource(R.string.settings_overlay_style_desc),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -207,10 +212,10 @@ fun SettingsScreen(
                     @OptIn(ExperimentalMaterial3Api::class)
                     SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                         listOf(
-                            "expressive" to "Expressive",
-                            "calm" to "Calm",
-                            "minimal" to "Minimal"
-                        ).forEachIndexed { index, (key, label) ->
+                            "expressive" to R.string.settings_overlay_style_expressive,
+                            "calm" to R.string.settings_overlay_style_calm,
+                            "minimal" to R.string.settings_overlay_style_minimal
+                        ).forEachIndexed { index, (key, labelRes) ->
                             SegmentedButton(
                                 shape = SegmentedButtonDefaults.itemShape(index, 3),
                                 onClick = {
@@ -218,7 +223,7 @@ fun SettingsScreen(
                                     PrefsManager.setOverlayStyle(context, key)
                                 },
                                 selected = overlayStyle == key,
-                                label = { Text(label, style = MaterialTheme.typography.labelMedium) }
+                                label = { Text(stringResource(labelRes), style = MaterialTheme.typography.labelMedium) }
                             )
                         }
                     }
@@ -232,12 +237,12 @@ fun SettingsScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        "Overlay Theme",
+                        stringResource(R.string.settings_overlay_theme),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        "Force the rest screen dark or light, or follow the system",
+                        stringResource(R.string.settings_overlay_theme_desc),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -245,10 +250,10 @@ fun SettingsScreen(
                     @OptIn(ExperimentalMaterial3Api::class)
                     SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                         listOf(
-                            "system" to "System",
-                            "dark" to "Dark",
-                            "light" to "Light"
-                        ).forEachIndexed { index, (key, label) ->
+                            "system" to R.string.settings_overlay_theme_system,
+                            "dark" to R.string.settings_overlay_theme_dark,
+                            "light" to R.string.settings_overlay_theme_light
+                        ).forEachIndexed { index, (key, labelRes) ->
                             SegmentedButton(
                                 shape = SegmentedButtonDefaults.itemShape(index, 3),
                                 onClick = {
@@ -256,7 +261,7 @@ fun SettingsScreen(
                                     PrefsManager.setOverlayTheme(context, key)
                                 },
                                 selected = overlayTheme == key,
-                                label = { Text(label, style = MaterialTheme.typography.labelMedium) }
+                                label = { Text(stringResource(labelRes), style = MaterialTheme.typography.labelMedium) }
                             )
                         }
                     }
@@ -266,7 +271,7 @@ fun SettingsScreen(
             Spacer(Modifier.height(12.dp))
 
             // ── System ───────────────────────────────────────────────
-            SettingsSectionHeader("System", Icons.Rounded.PowerSettingsNew)
+            SettingsSectionHeader(stringResource(R.string.settings_section_system), Icons.Rounded.PowerSettingsNew)
             SettingsCard {
                 // Battery Optimization
                 val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -276,11 +281,11 @@ fun SettingsScreen(
                 val scope = rememberCoroutineScope()
 
                 ListItem(
-                    headlineContent = { Text("Battery Optimization", fontWeight = FontWeight.SemiBold) },
+                    headlineContent = { Text(stringResource(R.string.settings_battery_optimization), fontWeight = FontWeight.SemiBold) },
                     supportingContent = {
                         Text(
-                            if (isIgnoring) "Unrestricted — timers are reliable"
-                            else "Restricted — tap to fix"
+                            if (isIgnoring) stringResource(R.string.settings_battery_unrestricted)
+                            else stringResource(R.string.settings_battery_restricted)
                         )
                     },
                     leadingContent = {
@@ -307,7 +312,7 @@ fun SettingsScreen(
                                     }
                                 },
                                 shape = RoundedCornerShape(12.dp)
-                            ) { Text("Disable") }
+                            ) { Text(stringResource(R.string.settings_disable)) }
                         } else {
                             Icon(
                                 Icons.Rounded.CheckCircle,
@@ -325,8 +330,8 @@ fun SettingsScreen(
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
                 ListItem(
-                    headlineContent = { Text("Start on Boot", fontWeight = FontWeight.SemiBold) },
-                    supportingContent = { Text("Resume automatically after reboot") },
+                    headlineContent = { Text(stringResource(R.string.settings_start_on_boot), fontWeight = FontWeight.SemiBold) },
+                    supportingContent = { Text(stringResource(R.string.settings_start_on_boot_desc)) },
                     leadingContent = {
                         Icon(
                             Icons.Rounded.PowerSettingsNew,
@@ -348,6 +353,50 @@ fun SettingsScreen(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                     )
                 )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                // Language selector
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        stringResource(R.string.settings_language),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        stringResource(R.string.settings_language_desc),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    @OptIn(ExperimentalMaterial3Api::class)
+                    SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                        listOf(
+                            "system" to R.string.settings_lang_system,
+                            "zh" to R.string.settings_lang_zh,
+                            "en" to R.string.settings_lang_en
+                        ).forEachIndexed { index, (key, labelRes) ->
+                            SegmentedButton(
+                                shape = SegmentedButtonDefaults.itemShape(index, 3),
+                                onClick = {
+                                    appLanguage = key
+                                    PrefsManager.setAppLanguage(context, key)
+                                    val lm = context.getSystemService(LocaleManager::class.java)
+                                    lm?.applicationLocales = when (key) {
+                                        "zh" -> LocaleList.forLanguageTags("zh-CN")
+                                        "en" -> LocaleList.forLanguageTags("en")
+                                        else -> LocaleList.getEmptyLocaleList()
+                                    }
+                                },
+                                selected = appLanguage == key,
+                                label = { Text(stringResource(labelRes), style = MaterialTheme.typography.labelMedium) }
+                            )
+                        }
+                    }
+                }
             }
 
             Spacer(Modifier.height(12.dp))
@@ -355,7 +404,7 @@ fun SettingsScreen(
             // ── OEM-specific guidance ────────────────────────────────
             val oemGuide = getOemBatteryGuide()
             if (oemGuide != null) {
-                SettingsSectionHeader("Device-Specific", Icons.Rounded.PhoneAndroid)
+                SettingsSectionHeader(stringResource(R.string.settings_section_device_specific), Icons.Rounded.PhoneAndroid)
                 SettingsCard {
                     Column(
                         modifier = Modifier.fillMaxWidth().padding(16.dp),

@@ -1,4 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Blink</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_back">Back</string>
+
+    <string name="settings_timers">Timers</string>
+    <string name="settings_work_duration">Work Duration</string>
+    <string name="settings_unit_min">%1$d min</string>
+    <string name="settings_rest_duration">Rest Duration</string>
+    <string name="settings_unit_sec">%1$d sec</string>
+
+    <string name="settings_alert">Alert</string>
+    <string name="settings_alert_mode">Alert Mode</string>
+    <string name="settings_alert_mode_desc">How you\'re reminded to take a break</string>
+    <string name="settings_alert_mode_both">Both</string>
+    <string name="settings_alert_mode_overlay">Overlay</string>
+    <string name="settings_alert_mode_notif">Notif</string>
+
+    <string name="settings_section_overlay">Overlay</string>
+    <string name="settings_dismissable">Dismissable</string>
+    <string name="settings_dismissable_desc">Show a close button during rest</string>
+    <string name="settings_opacity">Opacity</string>
+    <string name="settings_unit_percent">%1$d%%</string>
+    <string name="settings_overlay_style">Overlay Style</string>
+    <string name="settings_overlay_style_desc">Visual theme of the rest screen</string>
+    <string name="settings_overlay_style_expressive">Expressive</string>
+    <string name="settings_overlay_style_calm">Calm</string>
+    <string name="settings_overlay_style_minimal">Minimal</string>
+    <string name="settings_overlay_theme">Overlay Theme</string>
+    <string name="settings_overlay_theme_desc">Force the rest screen dark or light, or follow the system</string>
+    <string name="settings_overlay_theme_system">System</string>
+    <string name="settings_overlay_theme_dark">Dark</string>
+    <string name="settings_overlay_theme_light">Light</string>
+
+    <string name="settings_section_system">System</string>
+    <string name="settings_battery_optimization">Battery Optimization</string>
+    <string name="settings_battery_unrestricted">Unrestricted — timers are reliable</string>
+    <string name="settings_battery_restricted">Restricted — tap to fix</string>
+    <string name="settings_disable">Disable</string>
+    <string name="settings_start_on_boot">Start on Boot</string>
+    <string name="settings_start_on_boot_desc">Resume automatically after reboot</string>
+
+    <string name="settings_section_device_specific">Device-Specific</string>
+
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">App display language</string>
+    <string name="settings_lang_system">System</string>
+    <string name="settings_lang_zh">简体中文</string>
+    <string name="settings_lang_en">English</string>
 </resources>
