@@ -13,3 +13,6 @@ local.properties
 # Keystore (keep out of repo)
 *.jks
 *.keystore
+
+# superpowers SDD scratch
+.superpowers/
