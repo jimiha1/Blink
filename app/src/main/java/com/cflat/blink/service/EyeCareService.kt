@@ -126,10 +126,21 @@ class EyeCareService : Service() {
                 // OS restarted the service after killing it (START_STICKY).
                 // Only resume if we have a valid prior start time; otherwise start fresh.
                 if (timerStartElapsed > 0L) {
-                    Log.d(TAG, "Service restarted by OS - resuming existing countdown")
-                    _isRunning.value = true
-                    startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_resuming)))
-                    startCountdown() // resume countdown from saved timerStartElapsed
+                    val elapsed = SystemClock.elapsedRealtime() - timerStartElapsed
+                    val remaining = timerDurationMs - elapsed
+                    if (remaining > 0) {
+                        Log.d(TAG, "Service restarted by OS - resuming existing countdown")
+                        _isRunning.value = true
+                        startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_resuming)))
+                        _remainingMs.value = remaining
+                        scheduleRestAlarm(remaining) // re-arm: the original alarm died with the process
+                        startCountdown()
+                    } else {
+                        Log.d(TAG, "Service restarted by OS - countdown already elapsed, starting fresh")
+                        _isRunning.value = true
+                        startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_starting)))
+                        startFreshCycle()
+                    }
                 } else {
                     Log.d(TAG, "Service restarted by OS with no prior state - starting fresh")
                     _isRunning.value = true
@@ -183,84 +194,64 @@ class EyeCareService : Service() {
         }
         _isResting.value = false
         _remainingMs.value = remainingMs
-        // Schedule alarm for the remaining time
-        val alarmManager = getSystemService(AlarmManager::class.java)
-        val intent = Intent(this, AlarmReceiver::class.java).apply { action = ACTION_ALARM_FIRED }
-        val pendingIntent = PendingIntent.getBroadcast(
-            this, ALARM_REQUEST_CODE, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
         timerStartElapsed = SystemClock.elapsedRealtime() - (timerDurationMs - remainingMs)
-        val triggerAt = SystemClock.elapsedRealtime() + remainingMs
-        if (alarmManager.canScheduleExactAlarms()) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAt, pendingIntent)
-        } else {
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAt, pendingIntent)
-        }
+        scheduleRestAlarm(remainingMs)
         startCountdown()
     }
 
     private fun scheduleExactAlarm() {
-        val alarmManager = getSystemService(AlarmManager::class.java)
-
-        if (!alarmManager.canScheduleExactAlarms()) {
-            Log.w(TAG, "Cannot schedule exact alarms - permission not granted. Sending broadcast.")
-            sendBroadcast(Intent(ACTION_NEED_EXACT_ALARM_PERMISSION))
-            // Fall back to inexact alarm so app doesn't crash
-            scheduleInexactAlarm()
-            return
-        }
-
-        val intent = Intent(this, AlarmReceiver::class.java).apply {
-            action = ACTION_ALARM_FIRED
-        }
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            ALARM_REQUEST_CODE,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val triggerAt = SystemClock.elapsedRealtime() + timerDurationMs
         timerStartElapsed = SystemClock.elapsedRealtime()
-
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            triggerAt,
-            pendingIntent
-        )
-        Log.d(TAG, "Exact alarm scheduled for ${timerDurationMs / 1000}s from now")
+        scheduleRestAlarm(timerDurationMs)
     }
 
-    private fun scheduleInexactAlarm() {
+    /**
+     * Schedules the rest alarm. Prefers setAlarmClock() — a user-visible alarm the
+     * system treats as high priority and does not defer — because OEM power managers
+     * (e.g. Honor's PowerGenie) freeze a backgrounded app and push a plain
+     * setExactAndAllowWhileIdle() alarm days into the future, so the rest overlay
+     * never appeared. Falls back to an inexact alarm when the exact-alarm permission
+     * is missing.
+     */
+    private fun scheduleRestAlarm(remainingMs: Long) {
         val alarmManager = getSystemService(AlarmManager::class.java)
-        val intent = Intent(this, AlarmReceiver::class.java).apply {
-            action = ACTION_ALARM_FIRED
+        val pendingIntent = restAlarmPendingIntent()
+
+        if (alarmManager.canScheduleExactAlarms()) {
+            val showIntent = PendingIntent.getActivity(
+                this,
+                ALARM_REQUEST_CODE,
+                Intent(this, MainActivity::class.java),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            alarmManager.setAlarmClock(
+                AlarmManager.AlarmClockInfo(System.currentTimeMillis() + remainingMs, showIntent),
+                pendingIntent
+            )
+            Log.d(TAG, "AlarmClock scheduled for ${remainingMs / 1000}s from now")
+        } else {
+            Log.w(TAG, "Cannot schedule exact alarms - permission not granted. Sending broadcast.")
+            sendBroadcast(Intent(ACTION_NEED_EXACT_ALARM_PERMISSION))
+            alarmManager.set(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + remainingMs,
+                pendingIntent
+            )
+            Log.w(TAG, "Inexact alarm scheduled (exact alarm permission missing)")
         }
-        val pendingIntent = PendingIntent.getBroadcast(
+    }
+
+    private fun restAlarmPendingIntent(): PendingIntent {
+        val intent = Intent(this, AlarmReceiver::class.java).apply { action = ACTION_ALARM_FIRED }
+        return PendingIntent.getBroadcast(
             this,
             ALARM_REQUEST_CODE,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val triggerAt = SystemClock.elapsedRealtime() + timerDurationMs
-        timerStartElapsed = SystemClock.elapsedRealtime()
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAt, pendingIntent)
-        Log.w(TAG, "Inexact alarm scheduled (exact alarm permission missing)")
     }
 
     private fun cancelAlarm() {
-        val alarmManager = getSystemService(AlarmManager::class.java)
-        val intent = Intent(this, AlarmReceiver::class.java).apply {
-            action = ACTION_ALARM_FIRED
-        }
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            ALARM_REQUEST_CODE,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        alarmManager.cancel(pendingIntent)
+        getSystemService(AlarmManager::class.java).cancel(restAlarmPendingIntent())
     }
 
     private fun scheduleWatchdog() {
