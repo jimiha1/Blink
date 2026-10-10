@@ -12,6 +12,8 @@ object PrefsManager {
     private const val KEY_OVERLAY_DISMISSABLE = "overlay_dismissable"
     private const val KEY_OVERLAY_OPACITY = "overlay_opacity"  // 0.4..1.0
     private const val KEY_OVERLAY_STYLE = "overlay_style"      // "expressive" | "calm" | "minimal"
+    private const val KEY_OVERLAY_THEME = "overlay_theme"      // "system" | "dark" | "light"
+    private const val KEY_NOTIFICATION_ASKED = "notification_asked"
 
     private const val DEFAULT_WORK_DURATION_MS = 20 * 60 * 1000L
     private const val DEFAULT_REST_DURATION_MS = 20 * 1000L
@@ -60,4 +62,16 @@ object PrefsManager {
 
     fun setOverlayStyle(context: Context, style: String) =
         prefs(context).edit().putString(KEY_OVERLAY_STYLE, style).apply()
+
+    fun getOverlayTheme(context: Context): String =
+        prefs(context).getString(KEY_OVERLAY_THEME, "system") ?: "system"
+
+    fun setOverlayTheme(context: Context, theme: String) =
+        prefs(context).edit().putString(KEY_OVERLAY_THEME, theme).apply()
+
+    fun hasAskedNotification(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_NOTIFICATION_ASKED, false)
+
+    fun setAskedNotification(context: Context) =
+        prefs(context).edit().putBoolean(KEY_NOTIFICATION_ASKED, true).apply()
 }

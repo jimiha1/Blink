@@ -41,6 +41,7 @@ fun SettingsScreen(
     var overlayDismissable by remember { mutableStateOf(PrefsManager.isOverlayDismissable(context)) }
     var overlayOpacity by remember { mutableFloatStateOf(PrefsManager.getOverlayOpacity(context)) }
     var overlayStyle by remember { mutableStateOf(PrefsManager.getOverlayStyle(context)) }
+    var overlayTheme by remember { mutableStateOf(PrefsManager.getOverlayTheme(context)) }
     var autoStart by remember { mutableStateOf(PrefsManager.isAutoStartEnabled(context)) }
 
     Scaffold(
@@ -217,6 +218,44 @@ fun SettingsScreen(
                                     PrefsManager.setOverlayStyle(context, key)
                                 },
                                 selected = overlayStyle == key,
+                                label = { Text(label, style = MaterialTheme.typography.labelMedium) }
+                            )
+                        }
+                    }
+                }
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                // Theme selector
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        "Overlay Theme",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        "Force the rest screen dark or light, or follow the system",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    @OptIn(ExperimentalMaterial3Api::class)
+                    SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                        listOf(
+                            "system" to "System",
+                            "dark" to "Dark",
+                            "light" to "Light"
+                        ).forEachIndexed { index, (key, label) ->
+                            SegmentedButton(
+                                shape = SegmentedButtonDefaults.itemShape(index, 3),
+                                onClick = {
+                                    overlayTheme = key
+                                    PrefsManager.setOverlayTheme(context, key)
+                                },
+                                selected = overlayTheme == key,
                                 label = { Text(label, style = MaterialTheme.typography.labelMedium) }
                             )
                         }

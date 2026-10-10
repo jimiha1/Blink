@@ -15,6 +15,7 @@ import android.view.WindowManager
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -128,14 +129,20 @@ class RestOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwner, V
             }
 
             val restDurationMs = PrefsManager.getRestDurationMs(this)
-            Log.d(TAG, "restDurationMs=$restDurationMs style=$style dismissable=$dismissable opacity=$opacity")
+            val overlayTheme = PrefsManager.getOverlayTheme(this)
+            Log.d(TAG, "restDurationMs=$restDurationMs style=$style dismissable=$dismissable opacity=$opacity theme=$overlayTheme")
 
             overlayView = ComposeView(this).apply {
                 setViewTreeLifecycleOwner(this@RestOverlayService)
                 setViewTreeSavedStateRegistryOwner(this@RestOverlayService)
                 setViewTreeViewModelStoreOwner(this@RestOverlayService)
                 setContent {
-                    BlinkTheme {
+                    val darkTheme = when (overlayTheme) {
+                        "dark" -> true
+                        "light" -> false
+                        else -> isSystemInDarkTheme()
+                    }
+                    BlinkTheme(darkTheme = darkTheme) {
                         RestOverlayContent(
                             totalMs = restDurationMs,
                             dismissable = dismissable,
