@@ -135,4 +135,10 @@
     <string name="notif_resuming">正在恢复…</string>
     <string name="notif_remaining">%1$02d:%2$02d 后休息</string>
     <string name="notif_resting">🧘 休息中…（%1$d 秒）</string>
+
+    <!-- Notification channels -->
+    <string name="notif_channel_service_name">计时服务</string>
+    <string name="notif_channel_service_desc">常驻计时通知</string>
+    <string name="notif_channel_alert_name">Blink 提醒</string>
+    <string name="notif_channel_alert_desc">20-20-20 法则提醒</string>
 </resources>

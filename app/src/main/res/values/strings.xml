@@ -137,4 +137,10 @@
     <string name="notif_resuming">Resuming...</string>
     <string name="notif_remaining">%1$02d:%2$02d remaining</string>
     <string name="notif_resting">🧘 Resting… (%1$ds)</string>
+
+    <!-- Notification channels -->
+    <string name="notif_channel_service_name">Timer Service</string>
+    <string name="notif_channel_service_desc">Persistent timer notification</string>
+    <string name="notif_channel_alert_name">Blink Alert</string>
+    <string name="notif_channel_alert_desc">20-20-20 rule reminder</string>
 </resources>

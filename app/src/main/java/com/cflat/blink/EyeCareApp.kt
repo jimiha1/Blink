@@ -17,8 +17,8 @@ class EyeCareApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        createNotificationChannels()
         applyStoredLanguage()
+        createNotificationChannels()
     }
 
     private fun applyStoredLanguage() {
@@ -38,19 +38,19 @@ class EyeCareApp : Application() {
 
         val serviceChannel = NotificationChannel(
             CHANNEL_SERVICE,
-            "Timer Service",
+            getString(R.string.notif_channel_service_name),
             NotificationManager.IMPORTANCE_LOW
         ).apply {
-            description = "Persistent timer notification"
+            description = getString(R.string.notif_channel_service_desc)
             setShowBadge(false)
         }
 
         val alertChannel = NotificationChannel(
             CHANNEL_ALERT,
-            "Blink Alert",
+            getString(R.string.notif_channel_alert_name),
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "20-20-20 rule reminder"
+            description = getString(R.string.notif_channel_alert_desc)
             enableVibration(true)
             vibrationPattern = longArrayOf(0, 500, 200, 500)
             setBypassDnd(true)
