@@ -59,4 +59,25 @@
     <string name="settings_lang_system">跟随系统</string>
     <string name="settings_lang_zh">简体中文</string>
     <string name="settings_lang_en">English</string>
+
+    <!-- Rest overlay -->
+    <string name="overlay_seconds_label">秒</string>
+    <string name="overlay_title">休息一下</string>
+    <string name="overlay_subtitle">看向 20 英尺外的地方\n慢慢呼吸</string>
+    <string name="overlay_brand">blink</string>
+    <string name="overlay_icon_desc">休息</string>
+    <string name="overlay_seconds">秒</string>
+    <string name="overlay_look_away">看向 20 英尺外并呼吸</string>
+    <string name="overlay_sec">秒</string>
+    <string name="overlay_rest_your_eyes">让眼睛休息一下</string>
+    <string name="overlay_dismiss">关闭</string>
+
+    <!-- Notifications -->
+    <string name="notif_alert_title">👁️ 该休息眼睛了！</string>
+    <string name="notif_alert_text">看向 20 英尺外的地方，持续 20 秒</string>
+    <string name="notif_service_title">Blink • 计时进行中</string>
+    <string name="notif_starting">正在启动…</string>
+    <string name="notif_resuming">正在恢复…</string>
+    <string name="notif_remaining">%1$02d:%2$02d 后休息</string>
+    <string name="notif_resting">🧘 休息中…（%1$d 秒）</string>
 </resources>

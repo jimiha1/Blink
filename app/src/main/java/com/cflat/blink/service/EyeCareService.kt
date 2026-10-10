@@ -97,7 +97,7 @@ class EyeCareService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(NOTIFICATION_ID, buildServiceNotification("Starting..."))
+        startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_starting)))
         registerScreenReceiver()
         scheduleWatchdog()
     }
@@ -106,7 +106,7 @@ class EyeCareService : Service() {
         // Always call startForeground first to satisfy Android 14 FGS requirement
         if (getSystemService(android.app.NotificationManager::class.java)
                 .activeNotifications.none { it.id == NOTIFICATION_ID }) {
-            startForeground(NOTIFICATION_ID, buildServiceNotification("Resuming..."))
+            startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_resuming)))
         }
 
         when (intent?.action) {
@@ -127,19 +127,19 @@ class EyeCareService : Service() {
                 if (timerStartElapsed > 0L) {
                     Log.d(TAG, "Service restarted by OS - resuming existing countdown")
                     _isRunning.value = true
-                    startForeground(NOTIFICATION_ID, buildServiceNotification("Resuming..."))
+                    startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_resuming)))
                     startCountdown() // resume countdown from saved timerStartElapsed
                 } else {
                     Log.d(TAG, "Service restarted by OS with no prior state - starting fresh")
                     _isRunning.value = true
-                    startForeground(NOTIFICATION_ID, buildServiceNotification("Starting..."))
+                    startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_starting)))
                     startFreshCycle()
                 }
             }
             else -> {
                 // Explicit start from user or boot receiver
                 Log.d(TAG, "Service started explicitly")
-                startForeground(NOTIFICATION_ID, buildServiceNotification("Starting..."))
+                startForeground(NOTIFICATION_ID, buildServiceNotification(getString(R.string.notif_starting)))
                 _isRunning.value = true
                 startFreshCycle()
             }
@@ -331,7 +331,7 @@ class EyeCareService : Service() {
             RestOverlayService.start(this)
         }
 
-        updateNotification("🧘 Resting... (${restDurationMs / 1000}s)")
+        updateNotification(getString(R.string.notif_resting, restDurationMs / 1000))
 
         serviceScope.launch {
             delay(restDurationMs)
@@ -344,8 +344,8 @@ class EyeCareService : Service() {
 
     private fun showAlertNotification() {
         val notification = NotificationCompat.Builder(this, EyeCareApp.CHANNEL_ALERT)
-            .setContentTitle("👁️ Rest Your Eyes!")
-            .setContentText("Look at something 20 feet away for 20 seconds")
+            .setContentTitle(getString(R.string.notif_alert_title))
+            .setContentText(getString(R.string.notif_alert_text))
             .setSmallIcon(R.drawable.ic_eye)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
@@ -371,7 +371,7 @@ class EyeCareService : Service() {
         )
 
         return NotificationCompat.Builder(this, EyeCareApp.CHANNEL_SERVICE)
-            .setContentTitle("Blink • Timer Active")
+            .setContentTitle(getString(R.string.notif_service_title))
             .setContentText(text)
             .setSmallIcon(R.drawable.ic_eye)
             .setOngoing(true)
@@ -391,6 +391,6 @@ class EyeCareService : Service() {
         val totalSeconds = ms / 1000
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
-        return String.format("%02d:%02d remaining", minutes, seconds)
+        return getString(R.string.notif_remaining, minutes, seconds)
     }
 }

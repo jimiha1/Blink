@@ -61,4 +61,25 @@
     <string name="settings_lang_system">System</string>
     <string name="settings_lang_zh">简体中文</string>
     <string name="settings_lang_en">English</string>
+
+    <!-- Rest overlay -->
+    <string name="overlay_seconds_label">SECONDS</string>
+    <string name="overlay_title">Rest Your Eyes</string>
+    <string name="overlay_subtitle">Look at something 20 feet away\nand breathe slowly</string>
+    <string name="overlay_brand">blink</string>
+    <string name="overlay_icon_desc">Rest</string>
+    <string name="overlay_seconds">seconds</string>
+    <string name="overlay_look_away">Look 20 feet away and breathe</string>
+    <string name="overlay_sec">sec</string>
+    <string name="overlay_rest_your_eyes">Rest your eyes</string>
+    <string name="overlay_dismiss">Dismiss</string>
+
+    <!-- Notifications -->
+    <string name="notif_alert_title">👁️ Rest Your Eyes!</string>
+    <string name="notif_alert_text">Look at something 20 feet away for 20 seconds</string>
+    <string name="notif_service_title">Blink • Timer Active</string>
+    <string name="notif_starting">Starting...</string>
+    <string name="notif_resuming">Resuming...</string>
+    <string name="notif_remaining">%1$02d:%2$02d remaining</string>
+    <string name="notif_resting">🧘 Resting… (%1$ds)</string>
 </resources>
