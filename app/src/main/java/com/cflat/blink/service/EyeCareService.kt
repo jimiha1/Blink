@@ -16,6 +16,7 @@ import com.cflat.blink.EyeCareApp
 import com.cflat.blink.R
 import com.cflat.blink.receiver.AlarmReceiver
 import com.cflat.blink.ui.MainActivity
+import com.cflat.blink.util.ForegroundApp
 import com.cflat.blink.util.PrefsManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -324,10 +325,16 @@ class EyeCareService : Service() {
         stopCountdown()
 
         val alertMode = PrefsManager.getAlertMode(this)
-        if (alertMode != "overlay") {
+        // A whitelisted app in the foreground suppresses the full-screen overlay,
+        // but a notification still fires so the user is not left with nothing.
+        val suppressed = ForegroundApp.isWhitelistedAppInForeground(this)
+        if (suppressed) {
+            Log.d(TAG, "Whitelisted app in foreground - skipping overlay, notification only")
+        }
+        if (alertMode != "overlay" || suppressed) {
             showAlertNotification()
         }
-        if (alertMode != "notification" && android.provider.Settings.canDrawOverlays(this)) {
+        if (!suppressed && alertMode != "notification" && android.provider.Settings.canDrawOverlays(this)) {
             RestOverlayService.start(this)
         }
 

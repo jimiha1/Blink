@@ -5,7 +5,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings as AndroidSettings
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -16,9 +19,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.core.graphics.drawable.toBitmap
+import com.cflat.blink.util.ForegroundApp
 import com.cflat.blink.util.PrefsManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,6 +51,9 @@ fun SettingsScreen(
     var overlayStyle by remember { mutableStateOf(PrefsManager.getOverlayStyle(context)) }
     var overlayTheme by remember { mutableStateOf(PrefsManager.getOverlayTheme(context)) }
     var autoStart by remember { mutableStateOf(PrefsManager.isAutoStartEnabled(context)) }
+    var whitelist by remember { mutableStateOf(PrefsManager.getWhitelist(context)) }
+    var showAppPicker by remember { mutableStateOf(false) }
+    var hasUsageAccess by remember { mutableStateOf(ForegroundApp.hasUsageAccess(context)) }
 
     Scaffold(
         topBar = {
@@ -265,6 +276,92 @@ fun SettingsScreen(
 
             Spacer(Modifier.height(12.dp))
 
+            // ── Don't Interrupt ──────────────────────────────────────
+            SettingsSectionHeader("Don't Interrupt", Icons.Rounded.Block)
+            SettingsCard {
+                if (!hasUsageAccess) {
+                    ListItem(
+                        headlineContent = { Text("Usage access needed", fontWeight = FontWeight.SemiBold) },
+                        supportingContent = {
+                            Text("Grant usage access so Blink can tell which app is in front")
+                        },
+                        leadingContent = {
+                            Icon(
+                                Icons.Rounded.Warning,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        },
+                        trailingContent = {
+                            FilledTonalButton(
+                                onClick = {
+                                    ForegroundApp.openUsageAccessSettings(context)
+                                },
+                                shape = RoundedCornerShape(12.dp)
+                            ) { Text("Grant") }
+                        },
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                        )
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                }
+
+                ListItem(
+                    headlineContent = { Text("Whitelisted apps", fontWeight = FontWeight.SemiBold) },
+                    supportingContent = {
+                        Text(
+                            if (whitelist.isEmpty()) "No apps yet — the overlay always shows"
+                            else "${whitelist.size} app${if (whitelist.size == 1) "" else "s"} skip the overlay"
+                        )
+                    },
+                    leadingContent = {
+                        Icon(
+                            Icons.Rounded.Block,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    },
+                    trailingContent = {
+                        FilledTonalButton(
+                            onClick = { showAppPicker = true },
+                            shape = RoundedCornerShape(12.dp)
+                        ) { Text("Add app") }
+                    },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                    )
+                )
+
+                // Selected apps, each removable
+                whitelist.sorted().forEach { pkg ->
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                    val label = remember(pkg) { ForegroundApp.appLabel(context, pkg) }
+                    ListItem(
+                        headlineContent = { Text(label) },
+                        supportingContent = { Text(pkg) },
+                        trailingContent = {
+                            IconButton(onClick = {
+                                val next = whitelist - pkg
+                                whitelist = next
+                                PrefsManager.setWhitelist(context, next)
+                            }) {
+                                Icon(
+                                    Icons.Rounded.Close,
+                                    contentDescription = "Remove $label",
+                                    tint = MaterialTheme.colorScheme.outline
+                                )
+                            }
+                        },
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                        )
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
             // ── System ───────────────────────────────────────────────
             SettingsSectionHeader("System", Icons.Rounded.PowerSettingsNew)
             SettingsCard {
@@ -384,6 +481,117 @@ fun SettingsScreen(
             }
 
             Spacer(Modifier.height(32.dp))
+        }
+    }
+
+    if (showAppPicker) {
+        AppPickerDialog(
+            context = context,
+            selected = whitelist,
+            onToggle = { pkg, checked ->
+                val next = if (checked) whitelist + pkg else whitelist - pkg
+                whitelist = next
+                PrefsManager.setWhitelist(context, next)
+            },
+            onDismiss = { showAppPicker = false }
+        )
+    }
+}
+
+// ── App picker (whitelist) ─────────────────────────────────────────────────
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AppPickerDialog(
+    context: Context,
+    selected: Set<String>,
+    onToggle: (String, Boolean) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val apps = remember { ForegroundApp.getLaunchableApps(context) }
+    var query by remember { mutableStateOf("") }
+    val filtered = remember(apps, query) {
+        if (query.isBlank()) apps
+        else apps.filter {
+            it.label.contains(query, ignoreCase = true) ||
+                it.packageName.contains(query, ignoreCase = true)
+        }
+    }
+
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                TopAppBar(
+                    title = { Text("Choose apps", fontWeight = FontWeight.Bold) },
+                    navigationIcon = {
+                        IconButton(onClick = onDismiss) {
+                            Icon(Icons.Rounded.Close, contentDescription = "Close")
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                )
+
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    singleLine = true,
+                    placeholder = { Text("Search apps") },
+                    leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+
+                if (filtered.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            if (apps.isEmpty()) "No apps available"
+                            else "No matches",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                } else {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(filtered, key = { it.packageName }) { app ->
+                            val checked = selected.contains(app.packageName)
+                            ListItem(
+                                headlineContent = { Text(app.label) },
+                                supportingContent = { Text(app.packageName) },
+                                leadingContent = {
+                                    val bmp = remember(app.packageName) {
+                                        app.icon?.toBitmap(96, 96)?.asImageBitmap()
+                                    }
+                                    if (bmp != null) {
+                                        Icon(
+                                            bitmap = bmp,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(36.dp)
+                                        )
+                                    } else {
+                                        Icon(Icons.Rounded.Android, contentDescription = null)
+                                    }
+                                },
+                                trailingContent = {
+                                    Checkbox(
+                                        checked = checked,
+                                        onCheckedChange = { onToggle(app.packageName, it) }
+                                    )
+                                },
+                                modifier = Modifier.clickable {
+                                    onToggle(app.packageName, !checked)
+                                },
+                                colors = ListItemDefaults.colors(
+                                    containerColor = MaterialTheme.colorScheme.surface
+                                )
+                            )
+                            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ object PrefsManager {
     private const val KEY_OVERLAY_STYLE = "overlay_style"      // "expressive" | "calm" | "minimal"
     private const val KEY_OVERLAY_THEME = "overlay_theme"      // "system" | "dark" | "light"
     private const val KEY_NOTIFICATION_ASKED = "notification_asked"
+    private const val KEY_WHITELIST = "interrupt_whitelist"    // set of package names
 
     private const val DEFAULT_WORK_DURATION_MS = 20 * 60 * 1000L
     private const val DEFAULT_REST_DURATION_MS = 20 * 1000L
@@ -74,4 +75,11 @@ object PrefsManager {
 
     fun setAskedNotification(context: Context) =
         prefs(context).edit().putBoolean(KEY_NOTIFICATION_ASKED, true).apply()
+
+    /** Packages whose foreground presence suppresses the rest overlay. */
+    fun getWhitelist(context: Context): Set<String> =
+        prefs(context).getStringSet(KEY_WHITELIST, emptySet()) ?: emptySet()
+
+    fun setWhitelist(context: Context, packages: Set<String>) =
+        prefs(context).edit().putStringSet(KEY_WHITELIST, packages).apply()
 }
