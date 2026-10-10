@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home screen -->
+    <string name="home_status_resting">该让眼睛休息了</string>
+    <string name="home_status_running">正在保护你的视力</string>
+    <string name="home_status_idle">开始保护眼睛</string>
+    <string name="home_look_away">看向远处</string>
+    <string name="home_20ft_20s">20 英尺 20 秒</string>
+    <string name="home_paused">已暂停</string>
+    <string name="home_action_stop">停止</string>
+    <string name="home_action_start">开始</string>
+    <string name="home_eye_desc">眼睛</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">设置</string>
+    <string name="settings_back">返回</string>
+
+    <string name="settings_timers">计时</string>
+    <string name="settings_work_duration">工作时长</string>
+    <string name="settings_unit_min">%1$d 分钟</string>
+    <string name="settings_rest_duration">休息时长</string>
+    <string name="settings_unit_sec">%1$d 秒</string>
+
+    <string name="settings_alert">提醒</string>
+    <string name="settings_alert_mode">提醒方式</string>
+    <string name="settings_alert_mode_desc">如何提醒你休息</string>
+    <string name="settings_alert_mode_both">两者</string>
+    <string name="settings_alert_mode_overlay">悬浮层</string>
+    <string name="settings_alert_mode_notif">通知</string>
+
+    <string name="settings_section_overlay">悬浮层</string>
+    <string name="settings_dismissable">可关闭</string>
+    <string name="settings_dismissable_desc">休息时显示关闭按钮</string>
+    <string name="settings_opacity">不透明度</string>
+    <string name="settings_unit_percent">%1$d%%</string>
+    <string name="settings_overlay_style">悬浮层样式</string>
+    <string name="settings_overlay_style_desc">休息界面的视觉风格</string>
+    <string name="settings_overlay_style_expressive">灵动</string>
+    <string name="settings_overlay_style_calm">宁静</string>
+    <string name="settings_overlay_style_minimal">极简</string>
+    <string name="settings_overlay_theme">悬浮层主题</string>
+    <string name="settings_overlay_theme_desc">强制休息界面为深色或浅色，或跟随系统</string>
+    <string name="settings_overlay_theme_system">跟随系统</string>
+    <string name="settings_overlay_theme_dark">深色</string>
+    <string name="settings_overlay_theme_light">浅色</string>
+
+    <string name="settings_section_system">系统</string>
+    <string name="settings_battery_optimization">电池优化</string>
+    <string name="settings_battery_unrestricted">无限制 — 计时可靠</string>
+    <string name="settings_battery_restricted">受限 — 点按修复</string>
+    <string name="settings_disable">禁用</string>
+    <string name="settings_start_on_boot">开机自启</string>
+    <string name="settings_start_on_boot_desc">重启后自动恢复</string>
+
+    <string name="settings_section_device_specific">设备专属</string>
+
+    <string name="settings_language">语言</string>
+    <string name="settings_language_desc">应用显示语言</string>
+    <string name="settings_lang_system">跟随系统</string>
+    <string name="settings_lang_zh">简体中文</string>
+    <string name="settings_lang_en">English</string>
+
+    <!-- OEM battery guide -->
+    <string name="oem_xiaomi_title">小米/MIUI 电池设置</string>
+    <string name="oem_xiaomi_desc">MIUI 会激进地清理后台应用。请按以下步骤操作：</string>
+    <string name="oem_xiaomi_step1">1. 设置 > 应用 > 应用管理 > Blink > 自启动 > 开启</string>
+    <string name="oem_xiaomi_step2">2. 设置 > 应用 > 应用管理 > Blink > 省电策略 > 无限制</string>
+    <string name="oem_xiaomi_step3">3. 安全中心 > 电池 > 应用省电策略 > Blink > 无限制</string>
+    <string name="oem_xiaomi_step4">4. 在多任务界面锁定 Blink（在应用卡片上向下滑动）</string>
+    <string name="oem_xiaomi_note">注意：若系统强行停止 Blink，开机自启动在手动打开一次应用前不会生效。</string>
+
+    <string name="oem_samsung_title">三星电池设置</string>
+    <string name="oem_samsung_desc">三星的电池优化可能会停止后台应用。请按以下步骤操作：</string>
+    <string name="oem_samsung_step1">1. 设置 > 电池 > 后台使用限制 > 从不休眠的应用 > 添加 Blink</string>
+    <string name="oem_samsung_step2">2. 设置 > 应用 > Blink > 电池 > 无限制</string>
+    <string name="oem_samsung_step3">3. 在多任务界面锁定 Blink（点按应用图标 > 锁定）</string>
+    <string name="oem_samsung_note">注意：若系统强行停止 Blink，开机自启动在手动打开一次应用前不会生效。</string>
+
+    <string name="oem_huawei_title">华为/荣耀电池设置</string>
+    <string name="oem_huawei_desc">EMUI 的电源管理较为激进。请按以下步骤操作：</string>
+    <string name="oem_huawei_step1">1. 设置 > 电池 > 应用启动管理 > Blink > 手动管理 > 开启全部开关</string>
+    <string name="oem_huawei_step2">2. 设置 > 应用 > 应用 > Blink > 耗电详情 > 开启「允许后台活动」</string>
+    <string name="oem_huawei_step3">3. 在多任务界面锁定 Blink（在应用卡片上向下滑动）</string>
+
+    <string name="oem_oppo_title">OPPO/Realme/一加电池设置</string>
+    <string name="oem_oppo_desc">ColorOS 会激进地管理后台应用。请按以下步骤操作：</string>
+    <string name="oem_oppo_step1">1. 设置 > 应用管理 > 应用列表 > Blink > 自启动 > 允许</string>
+    <string name="oem_oppo_step2">2. 设置 > 电池 > 更多设置 > 优化电池使用 > Blink > 不优化</string>
+    <string name="oem_oppo_step3">3. 设置 > 应用 > 应用管理 > Blink > 电池用量 > 允许后台活动</string>
+    <string name="oem_oppo_step4">4. 在多任务界面锁定 Blink（点按应用卡片上的锁图标）</string>
+    <string name="oem_oppo_note">注意：若系统强行停止 Blink，开机自启动在手动打开一次应用前不会生效。</string>
+
+    <string name="oem_vivo_title">vivo/iQOO 电池设置</string>
+    <string name="oem_vivo_desc">Funtouch OS 会限制后台应用。请按以下步骤操作：</string>
+    <string name="oem_vivo_step1">1. 设置 > 应用 > 自启动 > 开启 Blink</string>
+    <string name="oem_vivo_step2">2. 设置 > 电池 > 后台耗电管理 > Blink > 不限制</string>
+    <string name="oem_vivo_step3">3. 设置 > 应用 > Blink > 电池 > 允许高耗电后台运行</string>
+    <string name="oem_vivo_step4">4. 在多任务界面锁定 Blink（在应用卡片上向下滑动）</string>
+    <string name="oem_vivo_note">注意：若系统强行停止 Blink，开机自启动在手动打开一次应用前不会生效。</string>
+
+    <string name="oem_motorola_title">摩托罗拉电池设置</string>
+    <string name="oem_motorola_desc">摩托罗拉的系统仍可能终止前台服务。请按以下步骤操作：</string>
+    <string name="oem_motorola_step1">1. 设置 > 电池 > 电池优化 > 所有应用 > Blink > 不优化</string>
+    <string name="oem_motorola_step2">2. 设置 > 应用 > Blink > 电池 > 允许后台活动</string>
+    <string name="oem_motorola_step3">3. 设置 > 电池 > 自适应电池 > 关闭（可选，会影响所有应用）</string>
+    <string name="oem_motorola_note">注意：若系统强行停止 Blink，开机自启动在手动打开一次应用前不会生效。</string>
+
+    <string name="oem_asus_title">华硕电池设置</string>
+    <string name="oem_asus_desc">华硕的电源管理可能会限制后台应用。请按以下步骤操作：</string>
+    <string name="oem_asus_step1">1. 设置 > 电池 > PowerMaster > 电池优化 > Blink > 不优化</string>
+    <string name="oem_asus_step2">2. 设置 > 电池 > PowerMaster > 自启动管理 > 开启 Blink</string>
+
+    <string name="oem_nokia_title">诺基亚电池设置</string>
+    <string name="oem_nokia_desc">诺基亚使用 DuraSpeed，会限制后台进程。请按以下步骤操作：</string>
+    <string name="oem_nokia_step1">1. 设置 > 电池 > 后台活动 > 开启 Blink</string>
+    <string name="oem_nokia_step2">2. 设置 > 应用 > Blink > 电池 > 无限制</string>
+
+    <!-- Rest overlay -->
+    <string name="overlay_seconds_label">秒</string>
+    <string name="overlay_title">休息一下</string>
+    <string name="overlay_subtitle">看向 20 英尺外的地方\n慢慢呼吸</string>
+    <string name="overlay_brand">blink</string>
+    <string name="overlay_icon_desc">休息</string>
+    <string name="overlay_seconds">秒</string>
+    <string name="overlay_look_away">看向 20 英尺外并呼吸</string>
+    <string name="overlay_sec">秒</string>
+    <string name="overlay_rest_your_eyes">让眼睛休息一下</string>
+    <string name="overlay_dismiss">关闭</string>
+
+    <!-- Notifications -->
+    <string name="notif_alert_title">👁️ 该休息眼睛了！</string>
+    <string name="notif_alert_text">看向 20 英尺外的地方，持续 20 秒</string>
+    <string name="notif_service_title">Blink • 计时进行中</string>
+    <string name="notif_starting">正在启动…</string>
+    <string name="notif_resuming">正在恢复…</string>
+    <string name="notif_remaining">%1$02d:%2$02d 后休息</string>
+    <string name="notif_resting">🧘 休息中…（%1$d 秒）</string>
+
+    <!-- Notification channels -->
+    <string name="notif_channel_service_name">计时服务</string>
+    <string name="notif_channel_service_desc">常驻计时通知</string>
+    <string name="notif_channel_alert_name">Blink 提醒</string>
+    <string name="notif_channel_alert_desc">20-20-20 法则提醒</string>
+
+    <!-- Don't Interrupt (foreground-app whitelist) -->
+    <string name="settings_section_dont_interrupt">免打扰</string>
+    <string name="settings_usage_access_needed">需要「使用情况访问」权限</string>
+    <string name="settings_usage_access_desc">授予使用情况访问权限，Blink 才能判断前台正在运行哪个应用</string>
+    <string name="settings_usage_access_grant">授予</string>
+    <string name="settings_whitelist_title">免打扰应用</string>
+    <string name="settings_whitelist_empty">暂无应用 — 叠加层始终显示</string>
+    <string name="settings_whitelist_add">添加应用</string>
+    <string name="settings_whitelist_remove_desc">移除 %1$s</string>
+    <plurals name="settings_whitelist_count">
+        <item quantity="other">%d 个应用会跳过叠加层</item>
+    </plurals>
+    <string name="app_picker_title">选择应用</string>
+    <string name="app_picker_close">关闭</string>
+    <string name="app_picker_search">搜索应用</string>
+    <string name="app_picker_empty">没有可用的应用</string>
+    <string name="app_picker_no_match">没有匹配项</string>
+</resources>

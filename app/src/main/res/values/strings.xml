@@ -1,4 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Blink</string>
+
+    <!-- Home screen -->
+    <string name="home_status_resting">Time to rest your eyes</string>
+    <string name="home_status_running">Protecting your vision</string>
+    <string name="home_status_idle">Start to protect your eyes</string>
+    <string name="home_look_away">Look Away</string>
+    <string name="home_20ft_20s">20ft for 20s</string>
+    <string name="home_paused">PAUSED</string>
+    <string name="home_action_stop">Stop</string>
+    <string name="home_action_start">Start</string>
+    <string name="home_eye_desc">Eye</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_back">Back</string>
+
+    <string name="settings_timers">Timers</string>
+    <string name="settings_work_duration">Work Duration</string>
+    <string name="settings_unit_min">%1$d min</string>
+    <string name="settings_rest_duration">Rest Duration</string>
+    <string name="settings_unit_sec">%1$d sec</string>
+
+    <string name="settings_alert">Alert</string>
+    <string name="settings_alert_mode">Alert Mode</string>
+    <string name="settings_alert_mode_desc">How you\'re reminded to take a break</string>
+    <string name="settings_alert_mode_both">Both</string>
+    <string name="settings_alert_mode_overlay">Overlay</string>
+    <string name="settings_alert_mode_notif">Notif</string>
+
+    <string name="settings_section_overlay">Overlay</string>
+    <string name="settings_dismissable">Dismissable</string>
+    <string name="settings_dismissable_desc">Show a close button during rest</string>
+    <string name="settings_opacity">Opacity</string>
+    <string name="settings_unit_percent">%1$d%%</string>
+    <string name="settings_overlay_style">Overlay Style</string>
+    <string name="settings_overlay_style_desc">Visual theme of the rest screen</string>
+    <string name="settings_overlay_style_expressive">Expressive</string>
+    <string name="settings_overlay_style_calm">Calm</string>
+    <string name="settings_overlay_style_minimal">Minimal</string>
+    <string name="settings_overlay_theme">Overlay Theme</string>
+    <string name="settings_overlay_theme_desc">Force the rest screen dark or light, or follow the system</string>
+    <string name="settings_overlay_theme_system">System</string>
+    <string name="settings_overlay_theme_dark">Dark</string>
+    <string name="settings_overlay_theme_light">Light</string>
+
+    <string name="settings_section_system">System</string>
+    <string name="settings_battery_optimization">Battery Optimization</string>
+    <string name="settings_battery_unrestricted">Unrestricted — timers are reliable</string>
+    <string name="settings_battery_restricted">Restricted — tap to fix</string>
+    <string name="settings_disable">Disable</string>
+    <string name="settings_start_on_boot">Start on Boot</string>
+    <string name="settings_start_on_boot_desc">Resume automatically after reboot</string>
+
+    <string name="settings_section_device_specific">Device-Specific</string>
+
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">App display language</string>
+    <string name="settings_lang_system">System</string>
+    <string name="settings_lang_zh">简体中文</string>
+    <string name="settings_lang_en">English</string>
+
+    <!-- OEM battery guide -->
+    <string name="oem_xiaomi_title">Xiaomi/MIUI Battery Settings</string>
+    <string name="oem_xiaomi_desc">MIUI aggressively kills background apps. Follow these steps:</string>
+    <string name="oem_xiaomi_step1">1. Settings > Apps > Manage Apps > Blink > Autostart > enable</string>
+    <string name="oem_xiaomi_step2">2. Settings > Apps > Manage Apps > Blink > Battery Saver > No restrictions</string>
+    <string name="oem_xiaomi_step3">3. Security app > Battery > App Battery Saver > Blink > No restrictions</string>
+    <string name="oem_xiaomi_step4">4. Lock Blink in Recents (swipe down on the app card)</string>
+    <string name="oem_xiaomi_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_samsung_title">Samsung Battery Settings</string>
+    <string name="oem_samsung_desc">Samsung\'s battery optimization can stop background apps. Follow these steps:</string>
+    <string name="oem_samsung_step1">1. Settings > Battery > Background usage limits > Never sleeping apps > Add Blink</string>
+    <string name="oem_samsung_step2">2. Settings > Apps > Blink > Battery > Unrestricted</string>
+    <string name="oem_samsung_step3">3. Lock Blink in Recents (tap the app icon > Lock)</string>
+    <string name="oem_samsung_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_huawei_title">Huawei/Honor Battery Settings</string>
+    <string name="oem_huawei_desc">EMUI has aggressive power management. Follow these steps:</string>
+    <string name="oem_huawei_step1">1. Settings > Battery > App launch > Blink > Manage manually > enable all toggles</string>
+    <string name="oem_huawei_step2">2. Settings > Apps > Apps > Blink > Battery > enable Run in background</string>
+    <string name="oem_huawei_step3">3. Lock Blink in Recents (swipe down on the app card)</string>
+
+    <string name="oem_oppo_title">OPPO/Realme/OnePlus Battery Settings</string>
+    <string name="oem_oppo_desc">ColorOS aggressively manages background apps. Follow these steps:</string>
+    <string name="oem_oppo_step1">1. Settings > App management > App list > Blink > Auto-launch > Allow</string>
+    <string name="oem_oppo_step2">2. Settings > Battery > More settings > Optimize battery use > Blink > Don\'t optimize</string>
+    <string name="oem_oppo_step3">3. Settings > Apps > App management > Blink > Battery usage > Allow background activity</string>
+    <string name="oem_oppo_step4">4. Lock Blink in Recents (tap the lock icon on the app card)</string>
+    <string name="oem_oppo_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_vivo_title">Vivo/iQOO Battery Settings</string>
+    <string name="oem_vivo_desc">Funtouch OS restricts background apps. Follow these steps:</string>
+    <string name="oem_vivo_step1">1. Settings > Apps > Autostart > enable Blink</string>
+    <string name="oem_vivo_step2">2. Settings > Battery > Background power consumption > Blink > Don\'t restrict</string>
+    <string name="oem_vivo_step3">3. Settings > Apps > Blink > Battery > Allow high background power consumption</string>
+    <string name="oem_vivo_step4">4. Lock Blink in Recents (swipe down on the app card)</string>
+    <string name="oem_vivo_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_motorola_title">Motorola Battery Settings</string>
+    <string name="oem_motorola_desc">Moto\'s system can still kill foreground services. Follow these steps:</string>
+    <string name="oem_motorola_step1">1. Settings > Battery > Battery optimization > All apps > Blink > Don\'t optimize</string>
+    <string name="oem_motorola_step2">2. Settings > Apps > Blink > Battery > Allow background activity</string>
+    <string name="oem_motorola_step3">3. Settings > Battery > Adaptive battery > turn off (optional, affects all apps)</string>
+    <string name="oem_motorola_note">Note: If the system force-stops Blink, autostart on boot won\'t work until you open the app once.</string>
+
+    <string name="oem_asus_title">ASUS Battery Settings</string>
+    <string name="oem_asus_desc">ASUS power management can restrict background apps. Follow these steps:</string>
+    <string name="oem_asus_step1">1. Settings > Battery > PowerMaster > Battery optimization > Blink > Don\'t optimize</string>
+    <string name="oem_asus_step2">2. Settings > Battery > PowerMaster > Auto-start manager > enable Blink</string>
+
+    <string name="oem_nokia_title">Nokia Battery Settings</string>
+    <string name="oem_nokia_desc">Nokia uses DuraSpeed which limits background processes. Follow these steps:</string>
+    <string name="oem_nokia_step1">1. Settings > Battery > Background activity > enable Blink</string>
+    <string name="oem_nokia_step2">2. Settings > Apps > Blink > Battery > Unrestricted</string>
+
+    <!-- Rest overlay -->
+    <string name="overlay_seconds_label">SECONDS</string>
+    <string name="overlay_title">Rest Your Eyes</string>
+    <string name="overlay_subtitle">Look at something 20 feet away\nand breathe slowly</string>
+    <string name="overlay_brand">blink</string>
+    <string name="overlay_icon_desc">Rest</string>
+    <string name="overlay_seconds">seconds</string>
+    <string name="overlay_look_away">Look 20 feet away and breathe</string>
+    <string name="overlay_sec">sec</string>
+    <string name="overlay_rest_your_eyes">Rest your eyes</string>
+    <string name="overlay_dismiss">Dismiss</string>
+
+    <!-- Notifications -->
+    <string name="notif_alert_title">👁️ Rest Your Eyes!</string>
+    <string name="notif_alert_text">Look at something 20 feet away for 20 seconds</string>
+    <string name="notif_service_title">Blink • Timer Active</string>
+    <string name="notif_starting">Starting...</string>
+    <string name="notif_resuming">Resuming...</string>
+    <string name="notif_remaining">%1$02d:%2$02d remaining</string>
+    <string name="notif_resting">🧘 Resting... (%1$ds)</string>
+
+    <!-- Notification channels -->
+    <string name="notif_channel_service_name">Timer Service</string>
+    <string name="notif_channel_service_desc">Persistent timer notification</string>
+    <string name="notif_channel_alert_name">Blink Alert</string>
+    <string name="notif_channel_alert_desc">20-20-20 rule reminder</string>
+
+    <!-- Don't Interrupt (foreground-app whitelist) -->
+    <string name="settings_section_dont_interrupt">Don\'t Interrupt</string>
+    <string name="settings_usage_access_needed">Usage access needed</string>
+    <string name="settings_usage_access_desc">Grant usage access so Blink can tell which app is in front</string>
+    <string name="settings_usage_access_grant">Grant</string>
+    <string name="settings_whitelist_title">Whitelisted apps</string>
+    <string name="settings_whitelist_empty">No apps yet — the overlay always shows</string>
+    <string name="settings_whitelist_add">Add app</string>
+    <string name="settings_whitelist_remove_desc">Remove %1$s</string>
+    <plurals name="settings_whitelist_count">
+        <item quantity="one">%d app skips the overlay</item>
+        <item quantity="other">%d apps skip the overlay</item>
+    </plurals>
+    <string name="app_picker_title">Choose apps</string>
+    <string name="app_picker_close">Close</string>
+    <string name="app_picker_search">Search apps</string>
+    <string name="app_picker_empty">No apps available</string>
+    <string name="app_picker_no_match">No matches</string>
 </resources>

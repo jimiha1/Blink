@@ -32,6 +32,7 @@ import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,11 +41,13 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.cflat.blink.R
 import com.cflat.blink.service.EyeCareService
 import com.cflat.blink.ui.theme.BlinkTheme
 import com.cflat.blink.util.PrefsManager
@@ -85,7 +88,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    var showSettings by remember { mutableStateOf(false) }
+                    var showSettings by rememberSaveable { mutableStateOf(false) }
                     if (showSettings) {
                         SettingsScreen(
                             context = this@MainActivity,
@@ -216,7 +219,7 @@ fun EyeCareScreen(
                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 contentColor = MaterialTheme.colorScheme.onSurface
             ) {
-                Icon(Icons.Rounded.Settings, contentDescription = "Settings")
+                Icon(Icons.Rounded.Settings, contentDescription = stringResource(R.string.settings_title))
             }
         },
         floatingActionButtonPosition = FabPosition.End
@@ -234,7 +237,7 @@ fun EyeCareScreen(
 
             // Header
             Text(
-                text = "Blink",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.Black,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -242,9 +245,9 @@ fun EyeCareScreen(
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = if (isResting) "Time to rest your eyes"
-                       else if (isRunning) "Protecting your vision"
-                       else "Start to protect your eyes",
+                text = if (isResting) stringResource(R.string.home_status_resting)
+                       else if (isRunning) stringResource(R.string.home_status_running)
+                       else stringResource(R.string.home_status_idle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
@@ -290,14 +293,14 @@ fun EyeCareScreen(
                         PulsingEye()
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Look Away",
+                            text = stringResource(R.string.home_look_away),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.error,
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "20ft for 20s",
+                            text = stringResource(R.string.home_20ft_20s),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center
@@ -323,7 +326,7 @@ fun EyeCareScreen(
                         if (!isRunning) {
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "PAUSED",
+                                text = stringResource(R.string.home_paused),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.outline,
                                 textAlign = TextAlign.Center,
@@ -346,7 +349,8 @@ fun EyeCareScreen(
             ) {
                 Icon(
                     imageVector = if (isRunning) Icons.Rounded.Stop else Icons.Rounded.PlayArrow,
-                    contentDescription = if (isRunning) "Stop" else "Start",
+                    contentDescription = if (isRunning) stringResource(R.string.home_action_stop)
+                                         else stringResource(R.string.home_action_start),
                     modifier = Modifier.size(36.dp)
                 )
             }
@@ -380,7 +384,7 @@ fun PulsingEye() {
 
     Icon(
         imageVector = Icons.Rounded.Visibility,
-        contentDescription = "Eye",
+        contentDescription = stringResource(R.string.home_eye_desc),
         tint = MaterialTheme.colorScheme.error.copy(alpha = alpha),
         modifier = Modifier.size((48 * scale).dp)
     )

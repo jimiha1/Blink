@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -52,6 +53,7 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import android.content.res.Configuration
+import com.cflat.blink.R
 import com.cflat.blink.ui.theme.BlinkTheme
 import com.cflat.blink.util.PrefsManager
 
@@ -282,7 +284,7 @@ fun RestOverlayContent(
                 ) {
                     Icon(
                         Icons.Rounded.Close,
-                        contentDescription = "Dismiss",
+                        contentDescription = stringResource(R.string.overlay_dismiss),
                         modifier = Modifier.size(36.dp)
                     )
                 }
@@ -347,7 +349,7 @@ private fun ExpressiveOverlayBody(
             Canvas(modifier = Modifier.size(glowSize).graphicsLayer(scaleX = breathe, scaleY = breathe)) {
                 drawCircle(Brush.radialGradient(listOf(primary.copy(alpha = glowAlpha), Color.Transparent)), size.minDimension / 2)
             }
-            Icon(Icons.Rounded.Visibility, "Rest", tint = tertiary,
+            Icon(Icons.Rounded.Visibility, stringResource(R.string.overlay_icon_desc), tint = tertiary,
                 modifier = Modifier.size(iconSize).graphicsLayer(scaleX = breathe, scaleY = breathe))
         }
     }
@@ -357,19 +359,19 @@ private fun ExpressiveOverlayBody(
         Column(horizontalAlignment = alignment) {
             Text("$secs", fontSize = numberFontSize, fontWeight = FontWeight.Black,
                 color = softWhite, textAlign = TextAlign.Center, letterSpacing = (-2).sp)
-            Text("SECONDS", fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
+            Text(stringResource(R.string.overlay_seconds_label), fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
                 color = tertiary.copy(alpha = 0.7f), textAlign = TextAlign.Center, letterSpacing = 4.sp)
             Spacer(Modifier.height(if (isLandscape) 16.dp else 36.dp))
-            Text("Rest Your Eyes", fontSize = titleFontSize, fontWeight = FontWeight.Bold,
+            Text(stringResource(R.string.overlay_title), fontSize = titleFontSize, fontWeight = FontWeight.Bold,
                 color = softWhite, textAlign = TextAlign.Center)
             Spacer(Modifier.height(8.dp))
-            Text("Look at something 20 feet away\nand breathe slowly",
+            Text(stringResource(R.string.overlay_subtitle),
                 fontSize = if (isLandscape) 12.sp else 14.sp,
                 color = softWhite.copy(alpha = 0.5f), textAlign = TextAlign.Center, lineHeight = 20.sp)
             Spacer(Modifier.height(if (isLandscape) 12.dp else 20.dp))
             Box(modifier = Modifier.clip(CircleShape).background(tertiary.copy(alpha = 0.1f))
                 .padding(horizontal = 16.dp, vertical = 6.dp)) {
-                Text("blink", fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
+                Text(stringResource(R.string.overlay_brand), fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
                     color = tertiary.copy(alpha = 0.8f), letterSpacing = 2.sp)
             }
         }
@@ -424,7 +426,7 @@ private fun CalmOverlayBody(
                 .graphicsLayer(scaleX = breathe, scaleY = breathe)) {
                 drawCircle(Brush.radialGradient(listOf(primary.copy(alpha = glowAlpha * 0.6f), Color.Transparent)), size.minDimension / 2)
             }
-            Icon(Icons.Rounded.Visibility, "Rest", tint = primary.copy(alpha = 0.85f),
+            Icon(Icons.Rounded.Visibility, stringResource(R.string.overlay_icon_desc), tint = primary.copy(alpha = 0.85f),
                 modifier = Modifier.size(if (isLandscape) 40.dp else 52.dp)
                     .graphicsLayer(scaleX = breathe, scaleY = breathe))
         }
@@ -435,13 +437,13 @@ private fun CalmOverlayBody(
         Column(horizontalAlignment = alignment) {
             Text("$secs", fontSize = if (isLandscape) 56.sp else 72.sp, fontWeight = FontWeight.Light,
                 color = softWhite, textAlign = TextAlign.Center)
-            Text("seconds", fontSize = 13.sp, color = primary.copy(alpha = 0.7f),
+            Text(stringResource(R.string.overlay_seconds), fontSize = 13.sp, color = primary.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center, letterSpacing = 2.sp)
             Spacer(Modifier.height(if (isLandscape) 12.dp else 28.dp))
-            Text("Rest Your Eyes", fontSize = if (isLandscape) 20.sp else 26.sp, fontWeight = FontWeight.Medium,
+            Text(stringResource(R.string.overlay_title), fontSize = if (isLandscape) 20.sp else 26.sp, fontWeight = FontWeight.Medium,
                 color = softWhite, textAlign = TextAlign.Center)
             Spacer(Modifier.height(6.dp))
-            Text("Look 20 feet away and breathe", fontSize = if (isLandscape) 12.sp else 14.sp,
+            Text(stringResource(R.string.overlay_look_away), fontSize = if (isLandscape) 12.sp else 14.sp,
                 color = softWhite.copy(alpha = 0.45f), textAlign = TextAlign.Center)
         }
     }
@@ -486,10 +488,10 @@ private fun MinimalOverlayBody(
                 fontWeight = FontWeight.Thin,
                 color = softWhite,
                 letterSpacing = (-4).sp)
-            Text("sec", fontSize = 14.sp, fontWeight = FontWeight.Normal,
+            Text(stringResource(R.string.overlay_sec), fontSize = 14.sp, fontWeight = FontWeight.Normal,
                 color = primary.copy(alpha = 0.7f), letterSpacing = 3.sp)
             Spacer(Modifier.height(if (isLandscape) 8.dp else 16.dp))
-            Text("Rest your eyes",
+            Text(stringResource(R.string.overlay_rest_your_eyes),
                 fontSize = if (isLandscape) 16.sp else 18.sp,
                 fontWeight = FontWeight.Normal,
                 color = softWhite.copy(alpha = 0.55f))
