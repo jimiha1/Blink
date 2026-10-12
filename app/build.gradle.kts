@@ -16,12 +16,22 @@ android {
         versionName = "1.1.0"
     }
 
+    // The release key is deliberately not in the repository. Point
+    // BLINK_KEYSTORE_FILE at it (defaults to a blink-release.jks beside the repo
+    // root); the passwords default to the original local values. When no
+    // keystore is present the release variant is simply left unsigned instead of
+    // failing the whole build.
+    val releaseKeystore = file(System.getenv("BLINK_KEYSTORE_FILE") ?: "../blink-release.jks")
+    val hasReleaseKeystore = releaseKeystore.exists()
+
     signingConfigs {
-        create("release") {
-            storeFile = file("../blink-release.jks")
-            storePassword = "blinkrelease2024"
-            keyAlias = "blink-key"
-            keyPassword = "blinkrelease2024"
+        if (hasReleaseKeystore) {
+            create("release") {
+                storeFile = releaseKeystore
+                storePassword = System.getenv("BLINK_KEYSTORE_PASSWORD") ?: "blinkrelease2024"
+                keyAlias = System.getenv("BLINK_KEY_ALIAS") ?: "blink-key"
+                keyPassword = System.getenv("BLINK_KEY_PASSWORD") ?: "blinkrelease2024"
+            }
         }
     }
 
@@ -37,7 +47,9 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
+            if (hasReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
