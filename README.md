@@ -56,8 +56,8 @@ When it's time, a beautiful fullscreen **overlay** appears on top of whatever yo
 
 | Build | Size | Description |
 |---|---|---|
-| `blink-v1.1.0-release.apk` | ~1.8 MB | Signed, R8-minified release build |
-| `blink-v1.1.0-debug.apk` | ~10 MB | Debug build with logging |
+| `blink-v1.2.0-release.apk` | ~2.2 MB | Signed, R8-minified release build |
+| `blink-v1.2.0-debug.apk` | ~7 MB | Debug build with logging |
 
 See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
@@ -116,6 +116,13 @@ See [CHANGELOG.md](CHANGELOG.md) for release notes.
 # Release (requires signing key)
 ./gradlew assembleRelease
 ```
+
+The release signing key is not in the repository. `assembleRelease` looks for a
+`blink-release.jks` beside the repository root, or the path in
+`BLINK_KEYSTORE_FILE`; `BLINK_KEYSTORE_PASSWORD`, `BLINK_KEY_ALIAS` and
+`BLINK_KEY_PASSWORD` override the defaults. Without a key the release variant is
+built unsigned rather than failing the build. CI supplies the key through the
+`KEYSTORE_BASE64` repository secret.
 
 ### Tech Stack
 

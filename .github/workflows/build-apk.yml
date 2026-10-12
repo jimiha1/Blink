@@ -19,8 +19,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Populate this repository secret with the base64 of blink-release.jks to
-      # also get a signed release APK. Without it only the debug APK is built.
+      # Preferred: the base64 of blink-release.jks stored as a repository secret.
+      # A committed blink-release.jks is also accepted as a fallback.
       KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
     steps:
       - name: Checkout
@@ -47,15 +47,25 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Decode release keystore
-        if: env.KEYSTORE_BASE64 != ''
-        run: echo "$KEYSTORE_BASE64" | base64 --decode > blink-release.jks
+      - name: Prepare signing key
+        id: signing
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            printf '%s' "$KEYSTORE_BASE64" | base64 --decode > blink-release.jks
+            echo "Decoded blink-release.jks from the KEYSTORE_BASE64 secret."
+          fi
+          if [ -f blink-release.jks ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No signing key found (neither KEYSTORE_BASE64 secret nor a committed blink-release.jks) - the release APK will be skipped."
+          fi
 
       - name: Build debug APK
         run: gradle --no-daemon assembleDebug
 
       - name: Build signed release APK
-        if: env.KEYSTORE_BASE64 != ''
+        if: steps.signing.outputs.available == 'true'
         run: gradle --no-daemon assembleRelease
 
       - name: Upload debug APK
@@ -66,7 +76,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload signed release APK
-        if: env.KEYSTORE_BASE64 != ''
+        if: steps.signing.outputs.available == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: blink-release-apk

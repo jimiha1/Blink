@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.2.0
+
+### Features
+- Chinese (Simplified) localization with an in-app language picker (per-app locale via `LocaleManager`)
+- "Don't Interrupt" app whitelist — the rest overlay is skipped while a whitelisted app is in the foreground
+
+### Fixes
+- No screen flash when switching language (`configChanges="locale|layoutDirection"`)
+- The rest alarm now fires reliably while the app is backgrounded (`setAlarmClock`), and the OS-restart path re-arms the alarm instead of losing the countdown
+
+### Build
+- The release signing key is resolved from `BLINK_KEYSTORE_FILE` (or a local `blink-release.jks`) and no longer hard-fails the build when absent — the release variant is left unsigned instead
+- GitHub Actions workflow that builds the APKs on every push to `main`
+
+### Note
+This release is signed with a new key (the original signing key was lost). Users on v1.1.0 or older must uninstall before installing this build.
+
 ## v1.1.0
 
 ### Reliability Improvements
